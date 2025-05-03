@@ -1,0 +1,47 @@
+Testiranje po metodi crne kutije (black box):
+
+Unos      Očekivano    Dobijeno    Napomena
+2+2           4           4        Test prošao
+6-3           3           3        Test prošao
+3*3           9           9        Test prošao
+10/2          5           5        Test prošao
+2+3*4         14          14       Test prošao
+1+4/2-1       2           2        Test prošao
+0+0           0           0        Test prošao
+1000*0        0           0        Test prošao
+3++3        Error       Error      Test prošao
+abc+1       Error       Error      Test prošao
+0/0           0      Beskonačno    Test nije prošao
+2+-3          -1        Error      Test nije prošao
+2 + 2          4        Error      Test nije prošao
+
+Uočeni nedostaci:
+1. Ne podržava negativne brojeve u sredini izraza (npr. 2+-3)
+2. Deljenje nulom nije eksplicitno obrađeno - daje rezultat beskonačno
+3. Ne prepoznaje izraze sa razmacima (npr. "2 + 2") - izbacuje grešku
+4. Kod neispravnih izrara ne daje objašnjenje korisniku, Error je uopšteni odgovor bez jasnih smernica.
+
+
+Jedinični test:
+
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatorTest {
+
+    @Test
+    void testCalculateSimpleExpression() {
+        // Priprema ulaznih podataka
+        List<Float> numbers = new ArrayList<>(Arrays.asList(2f, 3f, 4f));
+        List<String> operations = new ArrayList<>(Arrays.asList("*", "+"));
+
+        // Poziv metode
+        Calculator.Calculate(numbers, operations);
+
+        // Očekivano: 2 * 3 = 6, 6 + 4 = 10
+        assertEquals(10.0f, Calculator.finalResult);
+    }
+}
